@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .TODO-LIST-BLOCK{
+            display:flex;
+            
+        }
+    </style>
+    <script>
+        ///model section
+        /// javascripte object
+        let todo=[
+        {
+        title: 'Get groceries',
+        dueDate: '2021-10-04',
+        id: 'id1'
+        }, {
+        title: 'Wash car',
+        dueDate: '2021-02-03',
+        id: 'id2'
+        }];
+
+        function createtodo(title,duedate){
+            const id=new Date().getTime()
+
+            todo.push({
+                title: title.value,
+                dueDate:duedate,
+                id:id
+                
+            });
+        }
+        function removetask(id){
+            todo=todo.filter(function(todos){
+                if(todos.id==id)
+                {
+                    return false;
+                }
+                else{
+                return true;
+                }
+            });
+
+        }
+        
+        ///view section
+        function render(){
+            //reset div block
+            document.getElementById("todo-list").innerHTML=""; 
+            //reset 
+            todo.forEach(function(todo){
+                const element=document.createElement("div");
+                element.innerText=todo.title+'  '+todo.dueDate;
+
+                const deletebutton=document.createElement("button");
+                deletebutton.innerHTML="delete";
+                deletebutton.style="margin-left:16px;";
+                deletebutton.onclick=deletetodo;
+                deletebutton.id=todo.id;
+                element.appendChild(deletebutton)
+
+                document.getElementById("todo-list").appendChild(element)
+
+            });
+        } 
+
+
+        // controller section
+        function deletetodo(event){
+            const deleteButton=event.target;
+            const idtodelete=deleteButton.id;
+            removetask(idtodelete);
+            render();
+        }
+        
+
+        function addtask(){
+            task_val=document.getElementById("task-id")
+            
+            const datepicker=document.getElementById("task-date");
+            const duedate=datepicker.value;
+
+            createtodo(task_val,duedate);
+            
+            
+         render();
+        }
+
+
+    </script>
+</head>
+
+<body>
+    <div class="TODO-LIST-BLOCK">
+        <div>   
+        <input type="date" id="task-date"/>
+        <input type="text" id="task-id">
+        <button onclick="addtask()">Add task</button>
+        </div>
+
+    </div>
+    <div id="todo-list"></div>
+</body>
+</html>
